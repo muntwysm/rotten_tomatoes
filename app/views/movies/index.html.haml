@@ -1,0 +1,19 @@
+-#  This file is app/views/movies/index.html.haml
+%h1 All Movies
+
+%table#movies
+  %thead
+    %tr
+      %th{:class => css_class(params[:sort],'title'),:id => 'title_header'}= sortable "Movie Title"
+      %th Rating
+      %th{:class => css_class(params[:sort],'release_date'),:id => 'release_date_header'}= sortable "Release Date"
+      %th More Info
+  %tbody
+    - @movies.each do |movie|
+      %tr
+        %td= movie.title 
+        %td= movie.rating
+        %td= movie.release_date
+        %td= link_to "More about #{movie.title}", movie_path(movie)
+
+= link_to 'Add new movie', new_movie_path
