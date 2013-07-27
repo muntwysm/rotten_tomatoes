@@ -8,7 +8,7 @@ module ApplicationHelper
 	  	column = 'release_date'
 	  end	  	
 	  direction = column == sort_column && sort_direction == "asc" ? "desc" : "asc"
-	  link_to title, {:sort => column, :direction => direction}
+	  link_to title, {:sort => column}#, :direction => direction}
 	end
 
 	def css_class(sort_by,column)
