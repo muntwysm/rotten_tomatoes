@@ -9,7 +9,7 @@ class MoviesController < ApplicationController
 
   def index
     @all_ratings = Movie.get_ratings
-    @all_ratings = ['PG','PG-13','R','G']
+    session[:ratings] ||= @all_ratings
     @ratings_filter = params[:commit] ? params[:ratings].keys : session[:ratings]
     if params[:commit]
       session[:ratings] = @ratings_filter
