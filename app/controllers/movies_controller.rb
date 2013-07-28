@@ -8,7 +8,13 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @movies = Movie.order(sort_column)
+    @all_ratings = Movie.get_ratings
+    @ratings_filter = params[:commit] ? params[:ratings].keys : session[:ratings]
+    if params[:commit]
+      session[:ratings] = @ratings_filter
+    end
+    @movies = Movie.find(:all, :order=>sort_column, :conditions => {:rating => session[:ratings]})
+    
   end
 
   def new
