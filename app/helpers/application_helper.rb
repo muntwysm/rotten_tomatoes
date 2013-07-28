@@ -9,7 +9,8 @@ module ApplicationHelper
 	  else
 	  	column = 'title'
 	  end	  	
-	  link_to title, :sort => column
+	  link_to title,{:sort => column}, :id => "#{column}_header"
+	 #link_to "Link 1", booking_path, :id => "booked"
 	end
 
 	def css_class(sort_by,column)
