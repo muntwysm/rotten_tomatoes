@@ -8,6 +8,8 @@ class MoviesController < ApplicationController
   end
 
   def index
+    redirect = false
+
     @rating_names = Movie.get_ratings.keys
 
     session[:ratings] ||= Movie.get_ratings
@@ -19,7 +21,16 @@ class MoviesController < ApplicationController
 
     if params[:commit]
       session[:ratings] = params[:ratings]
-      redirect_to movies_path(:sort=>session[:sort], :ratings=>session[:ratings])
+      redirect = true
+    end
+
+    if params[:sort]
+      session[:sort] = params[:sort]
+      #redirect = true
+    end
+
+    if redirect
+      redirect_to movies_path :sort=>session[:sort], :ratings=>session[:ratings]
     end
 
     @movies = Movie.find(:all, :order=>sort_column, :conditions => {:rating => session[:ratings].keys})
