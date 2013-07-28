@@ -8,14 +8,21 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @all_ratings = Movie.get_ratings
-    session[:ratings] ||= @all_ratings
+    @rating_names = Movie.get_ratings.keys
+
+    session[:ratings] ||= Movie.get_ratings
+    session[:sort] ||= sort_column
+
+    # Make array of ratings to be filtered by
     @ratings_filter = params[:commit] ? params[:ratings].keys : session[:ratings]
-    if params[:commit]
-      session[:ratings] = @ratings_filter
-    end
-    @movies = Movie.find(:all, :order=>sort_column, :conditions => {:rating => session[:ratings]})
     
+    if params[:commit]
+      session[:ratings] = params[:ratings]
+      redirect_to movies_path(:sort=>session[:sort], :ratings=>session[:ratings])
+    end
+
+    @movies = Movie.find(:all, :order=>sort_column, :conditions => {:rating => session[:ratings].keys})
+    #session[:ratings].clear
   end
 
   def new
