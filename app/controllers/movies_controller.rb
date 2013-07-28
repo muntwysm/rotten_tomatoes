@@ -16,6 +16,7 @@ class MoviesController < ApplicationController
     # Make array of ratings to be filtered by
     @ratings_filter = params[:commit] ? params[:ratings].keys : session[:ratings]
     
+
     if params[:commit]
       session[:ratings] = params[:ratings]
       redirect_to movies_path(:sort=>session[:sort], :ratings=>session[:ratings])
@@ -57,6 +58,6 @@ class MoviesController < ApplicationController
   
   def sort_column
     sort_list = ['title','release_date']
-    sort_list.include?(params[:sort]) ? params[:sort] : "title"
+    session[:sort] = sort_list.include?(params[:sort]) ? params[:sort] : "title"
   end
 end
